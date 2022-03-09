@@ -95,7 +95,8 @@ public class RedisRepository {
 
     /* refreshToken  저장 */
     public void saveRefreshToken(String token, String username) {
-        valueOps.set(username, token, Duration.ofHours(2L));
+        System.out.println("redis repo 에 refresh token 저장:" + token);
+        valueOps.set(username, token, Duration.ofHours(1L));
     }
 
     /* refreshToken  저장 */
@@ -106,6 +107,7 @@ public class RedisRepository {
 
     /* refreshToken 삭제 */
     public void deleteRefreshToken(String username) {
+        System.out.println("refresh token 삭제 완료");
         valueOps.getAndDelete(username);
     }
 }

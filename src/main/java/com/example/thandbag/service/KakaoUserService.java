@@ -38,6 +38,7 @@ public class KakaoUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProfileImgRepository profileImgRepository;
+    private final JwtTokenUtils jwtTokenUtils;
 
     /* 카카오 로그인 */
     public LoginResultDto kakaoLogin(String code, HttpServletResponse response)
@@ -195,7 +196,7 @@ public class KakaoUserService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = JwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 1000);
+        String token = jwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 1000);
 
         response.addHeader("Authorization", "Bearer " + token);
     }

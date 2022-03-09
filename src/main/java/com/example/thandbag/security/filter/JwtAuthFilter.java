@@ -42,7 +42,6 @@ public class JwtAuthFilter extends AbstractAuthenticationProcessingFilter {
             throw new IllegalArgumentException("토큰 정보가 존재하지 않습니다.");
         }
 
-
         JwtPreProcessingToken accessAndRefreshToken = new JwtPreProcessingToken(
                 extractor.extract(tokenPayload, request) + "!" + extractor.extract(refreshToken, request));
 

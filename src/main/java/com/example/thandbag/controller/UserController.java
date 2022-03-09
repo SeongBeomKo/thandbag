@@ -37,6 +37,7 @@ public class UserController {
     /* 로그아웃 시 refresh token 삭제*/
     @PostMapping("/api/user/logout")
     public void userLogout(String username){
+        System.out.println("token 삭제" + username);
         redisRepository.deleteRefreshToken(username);
     }
 

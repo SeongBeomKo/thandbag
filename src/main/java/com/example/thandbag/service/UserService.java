@@ -6,6 +6,7 @@ import com.example.thandbag.dto.signup.SignupRequestDto;
 import com.example.thandbag.model.ProfileImg;
 import com.example.thandbag.model.User;
 import com.example.thandbag.repository.ProfileImgRepository;
+import com.example.thandbag.repository.RedisRepository;
 import com.example.thandbag.repository.UserRepository;
 import com.example.thandbag.security.UserDetailsImpl;
 import com.example.thandbag.security.jwt.JwtTokenUtils;
@@ -28,6 +29,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserValidator userValidator;
     private final ProfileImgRepository profileImgRepository;
+    private final JwtTokenUtils jwtTokenUtils;
+    private final RedisRepository redisRepository;
 
     /* 회원가입 */
     @Transactional
@@ -79,10 +82,12 @@ public class UserService {
 
         /* 토큰 생성 */
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
-        String accessToken = JwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 10);
-        String refreshToken = JwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 30);
+        String accessToken = jwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 1000);
+        String refreshToken = jwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.HOUR * 1);
         response.addHeader("Authorization", "Bearer " + accessToken);
         response.addHeader("refreshToken", "Bearer " + refreshToken);
+
+        redisRepository.saveRefreshToken(refreshToken, user.getUsername());
 
         return new LoginResultDto(
                 user.getId(),
