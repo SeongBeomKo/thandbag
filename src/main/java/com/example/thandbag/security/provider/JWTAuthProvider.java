@@ -52,7 +52,9 @@ public class JWTAuthProvider implements AuthenticationProvider {
 
         if (expiredDate.before(now)) {
             if (!redisRepository.checkRefreshToken(refreshToken, username)) {
-                throw new IllegalArgumentException("토큰 정보가 존재하지 않습니다.");
+                throw new IllegalArgumentException("refresh token 토큰 정보가 존재하지 않습니다.");
+            } else {
+
             }
         }
         //String username = jwtDecoder.decodeUsername(token);

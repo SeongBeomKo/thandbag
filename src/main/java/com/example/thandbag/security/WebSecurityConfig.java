@@ -5,6 +5,7 @@ import com.example.thandbag.security.filter.JwtAuthFilter;
 import com.example.thandbag.security.jwt.HeaderTokenExtractor;
 import com.example.thandbag.security.provider.JWTAuthProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Configuration
 @RequiredArgsConstructor

@@ -47,6 +47,7 @@ public class MainService {
     private final ChannelTopic channelTopic;
     private final RedisRepository redisRepository;
     private final JwtDecoder jwtDecoder;
+    private final JwtTokenUtils jwtTokenUtils;
 
     /* 생드백 생성 */
     @Transactional
@@ -70,7 +71,7 @@ public class MainService {
                     .checkRefreshToken(request.getHeader("refreshToken").substring(7),
                             user.getUsername())) {
                 UserDetailsImpl userDetails = new UserDetailsImpl(user);
-                String accessToken = JwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 10);
+                String accessToken = jwtTokenUtils.generateJwtToken(userDetails, JwtTokenUtils.SEC * 10);
                 response.setHeader("Authorization", accessToken);
             }
         }

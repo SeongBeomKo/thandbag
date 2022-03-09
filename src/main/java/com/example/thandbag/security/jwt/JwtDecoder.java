@@ -4,10 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.example.thandbag.repository.RedisRepository;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -16,10 +16,12 @@ import java.util.Optional;
 import static com.example.thandbag.security.jwt.JwtTokenUtils.*;
 
 @Component
-@RequiredArgsConstructor
 public class JwtDecoder {
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final RedisRepository redisRepository;
+
+    @Autowired
+    private Environment environment;
 
     public String decodeUsername(String token) {
         DecodedJWT decodedJWT = isValidToken(token)
@@ -49,7 +51,7 @@ public class JwtDecoder {
         DecodedJWT jwt = null;
 
         try {
-            Algorithm algorithm = Algorithm.HMAC256(jwt_secret);
+            Algorithm algorithm = Algorithm.HMAC256(environment.getProperty("jwt.secret"));
             JWTVerifier verifier = JWT
                     .require(algorithm)
                     .build();

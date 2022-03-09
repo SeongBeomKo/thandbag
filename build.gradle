@@ -72,6 +72,8 @@ dependencies {
 	// ArchUnit (Architecture Test)
 	testImplementation 'com.tngtech.archunit:archunit-junit5:0.22.0'
 
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:2.4.1"
+
 
 }
 

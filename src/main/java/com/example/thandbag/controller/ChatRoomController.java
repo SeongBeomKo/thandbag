@@ -21,6 +21,7 @@ import java.util.List;
 public class ChatRoomController {
 
     private final ChatService chatService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @GetMapping("/chat/user")
     public LoginInfo getUserInfo() {
@@ -34,7 +35,7 @@ public class ChatRoomController {
 
         return LoginInfo.builder()
                 .name(name)
-                .token(JwtTokenUtils.
+                .token(jwtTokenUtils.
                         generateJwtToken(user, JwtTokenUtils.SEC * 1000))
                 .build();
     }
